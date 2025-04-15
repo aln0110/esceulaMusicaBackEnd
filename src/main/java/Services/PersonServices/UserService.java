@@ -12,6 +12,8 @@ public class UserService {
     private UsersData usersData;
 
     public Response createUser(Users user) {
+
+        System.out.println("Hoa de desde user service" + user.toString());
         boolean success = usersData.addUser(user);
         Response response = new Response();
         if (success) {

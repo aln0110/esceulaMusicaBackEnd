@@ -48,19 +48,22 @@ public class PersonContoller {
                  address.setIdPerson(idResponse.getData());
                  BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
                  user.setPassword(passd.encode(user.getPassword()));
-                 System.out.println("All user info before sending it to the db: "+user.toString());
+                 //System.out.println("All user info before sending it to the db: "+user.toString());
 
 
 
-                 if (addressService.createAddress(address).equals("success") && userService.createUser(user).equals("success")) {
-                   return   res;
-                 }else{
-                     response.setStatus("error");
-                     response.setTitle("Creation Failed");
-                     response.setMessage("Creation failed could not create user or address");
-                     response.setData(0);
-                     return  response;
-                 }
+
+
+
+                     if (addressService.createAddress(address).equals("success") && userService.createUser(user).equals("success")) {
+                       return   res;
+                     }else{
+                         response.setStatus("error");
+                         response.setTitle("Creation Failed");
+                         response.setMessage("Creation failed could not create user or address");
+                         response.setData(0);
+                         return  response;
+                     }
              }else{
                  response.setStatus("error");
                  response.setTitle("Creation Failed");

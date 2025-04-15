@@ -15,6 +15,7 @@ public class PersonData {
     public boolean addPerson(Person person) {
         String sql = "INSERT INTO tbPerson (name, lastname, type_idcard, idcard, birth_date, nationality, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+
             jdbcTemplate.update(sql, person.getName(), person.getLastname(), person.getTypeIdCard(), person.getIdCard(), Date.valueOf(person.getBirthDate().toLocalDate()), person.getNationality(), person.getGender(), person.isStatus());
             return true;
         } catch (Exception e) {

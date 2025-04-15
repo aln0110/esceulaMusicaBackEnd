@@ -12,6 +12,8 @@ public class PersonService {
     private PersonData personData;
 
     public Response createPerson(Person person) {
+
+        //System.out.println("Hola desde persona Service Creating person: " + person);
         boolean success = personData.addPerson(person);
         Response response = new Response();
         if (success) {

@@ -17,19 +17,22 @@ public class UsersData {
     private JdbcTemplate jdbcTemplate;
 
     public boolean addUser(Users user){
-        String sql = "INSERT INTO tbuser (id_Persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, created_at, last_login, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tbUser (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        System.out.println("Holaaaaaaaaa?");
         try {
-            jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.getCreatedAt(), user.getLastLogin(), user.isStatus());
+            System.out.println("Trying to add user...");
+            jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.isStatus());
             return  true;
         } catch (Exception e) {
             System.out.println("Error adding user: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
 
     }
 
     public boolean updateUser(Users user) {
-        String sql = "UPDATE tbUser SET id_Persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE tbUser SET id_persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
         try {
             jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.getCreatedAt(), user.getLastLogin(), user.isStatus(), user.getId());
             return true;
@@ -69,7 +72,7 @@ public class UsersData {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
-                user.setIdPerson(rs.getInt("id_Persona"));
+                user.setIdPerson(rs.getInt("id_persona"));
                 user.setUserRol(rs.getString("rol_user"));
                 user.setUserName(rs.getString("user_name"));
                 user.setEmail(rs.getString("email"));
@@ -93,7 +96,7 @@ public class UsersData {
             return jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
-                user.setIdPerson(rs.getInt("id_Persona"));
+                user.setIdPerson(rs.getInt("id_persona"));
                 user.setUserRol(rs.getString("rol_user"));
                 user.setUserName(rs.getString("user_name"));
                 user.setEmail(rs.getString("email"));
@@ -118,7 +121,7 @@ public class UsersData {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Users user = new Users();
                 user.setId(rs.getInt("id"));
-                user.setIdPerson(rs.getInt("id_Persona"));
+                user.setIdPerson(rs.getInt("id_persona"));
                 user.setUserRol(rs.getString("rol_user"));
                 user.setUserName(rs.getString("user_name"));
                 user.setEmail(rs.getString("email"));
@@ -144,7 +147,7 @@ public class UsersData {
                 Users u = new Users();
                 u.setPassword(rs.getString("password"));
                 u.setId(rs.getInt("id"));
-                u.setIdPerson(rs.getInt("id_Persona"));
+                u.setIdPerson(rs.getInt("id_persona"));
                 u.setUserRol(rs.getString("rol_user"));
                 u.setUserName(rs.getString("user_name"));
                 u.setEmail(rs.getString("email"));
