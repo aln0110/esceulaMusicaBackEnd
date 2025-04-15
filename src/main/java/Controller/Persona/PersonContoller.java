@@ -37,16 +37,20 @@ public class PersonContoller {
         Users user = request.getUser();
         Address address = request.getAddress();
 
+
         Response<Boolean> res = personService.createPerson(person);
         Response response = new Response();
 
         if (res.getStatus().equals("success")) {
             Response<Integer> idResponse = personService.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
              if (idResponse.getStatus().equals("success")) {
-                 user.setId(idResponse.getData());
-                 address.setId(idResponse.getData());
+                 user.setIdPerson(idResponse.getData());
+                 address.setIdPerson(idResponse.getData());
                  BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
                  user.setPassword(passd.encode(user.getPassword()));
+                 System.out.println("All user info before sending it to the db: "+user.toString());
+
+
 
                  if (addressService.createAddress(address).equals("success") && userService.createUser(user).equals("success")) {
                    return   res;
