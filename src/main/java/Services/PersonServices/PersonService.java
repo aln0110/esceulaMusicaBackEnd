@@ -18,18 +18,45 @@ public class PersonService {
             response.setStatus("success");
             response.setTitle("Person Created");
             response.setMessage("Person created successfully");
+            response.setData(person);
 
         } else {
             response.setStatus("error");
             response.setTitle("Person Creation Failed");
             response.setMessage("Failed to create person");
+            response.setData(null);
         }
 
         return  response;
     }
-//
-   //  public static int getIdPersonByIdCard(String idCard, String idCardType) {
-  //  return personData.getIdPersonByIdCard(idCard, idCardType);
-  //  }
+
+
+    public  Response<Integer> getIdPersonByIdCard(String idCard, String idCardType) {
+        Response<Integer> response = new Response<>();
+
+        try {
+            int id = personData.getIdPersonByIdCard(idCard, idCardType);
+            if (id > 0) {
+                response.setStatus("success");
+                response.setTitle("Person Found");
+                response.setMessage("Person retrieved successfully");
+                response.setData(id);
+            } else {
+                response.setStatus("error");
+                response.setTitle("Person Not Found");
+                response.setMessage("No person found with given ID card");
+                response.setData(0);
+            }
+        } catch (Exception e) {
+            response.setStatus("error");
+            response.setTitle("Database Error");
+            response.setMessage("Error retrieving person: " + e.getMessage());
+            response.setData(0);
+        }
+        return response;
+    }
+
+
+
 
 }

@@ -24,14 +24,19 @@ public class PersonContoller {
     @PostMapping(path = "/create")
     public Response<Boolean> createPerson(@RequestBody  Person person) {
         int id = 0;
-        String idCard = person.getIdCard();
-        String typeIdCard = person.getTypeIdCard();
-
 
         Response<Boolean> res = personService.createPerson(person);
-        //id = PersonService.getIdPersonByIdCard(idCard, typeIdCard);
 
-
+        if (res.getStatus().equals("success")) {
+            Response<Integer> idResponse = personService.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
+            id = idResponse.getData();
+        } else {
+            Response<Integer> errorResponse = new Response<>();
+            errorResponse.setStatus("error");
+            errorResponse.setTitle("Creation Failed");
+            errorResponse.setMessage("Could not get ID because creation failed");
+            errorResponse.setData(0);
+        }
 
         return res;
 
