@@ -8,13 +8,11 @@ import Model.Response.Response;
 import Services.CustomOAuth2UserService;
 import Services.PersonServices.AddressService;
 import Services.PersonServices.UserService;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import  Services.PersonServices.PersonService;
@@ -26,7 +24,7 @@ public class PersonContoller {
     private PersonService personService;
 
     @Autowired
-    private UserService userService;
+    private UserService userServiceS;
 
     @Autowired
     private AddressService addressService;
@@ -42,20 +40,16 @@ public class PersonContoller {
         Response response = new Response();
 
         if (res.getStatus().equals("success")) {
+
+
             Response<Integer> idResponse = personService.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
              if (idResponse.getStatus().equals("success")) {
                  user.setIdPerson(idResponse.getData());
                  address.setIdPerson(idResponse.getData());
                  BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
                  user.setPassword(passd.encode(user.getPassword()));
-                 //System.out.println("All user info before sending it to the db: "+user.toString());
-
-
-
-
-
-
-                     if (addressService.createAddress(address).equals("success") && userService.createUser(user).equals("success")) {
+            
+                     if (addressService.createAddress(address).getStatus().equals("success") && userServiceS.createUser(user).getStatus().equals("success") ) {
                        return   res;
                      }else{
                          response.setStatus("error");

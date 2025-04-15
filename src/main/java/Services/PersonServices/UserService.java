@@ -11,6 +11,10 @@ public class UserService {
     @Autowired
     private UsersData usersData;
 
+    public UserService() {
+       // System.out.println("UserService is being instantiated WHYYYYYYYYYYYYYYYYYYYYY");
+    }
+
     public Response createUser(Users user) {
 
         System.out.println("Hoa de desde user service" + user.toString());
