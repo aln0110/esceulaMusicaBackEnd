@@ -1,11 +1,15 @@
 package Controller.Persona;
 
+import Data.Person.PersonCreationRequest;
 import Model.Person.Address;
 import Model.Person.Person;
 import Model.Person.User.Users;
 import Model.Response.Response;
 import Services.CustomOAuth2UserService;
+import Services.PersonServices.AddressService;
+import Services.PersonServices.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,26 +25,56 @@ public class PersonContoller {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
+
     @PostMapping(path = "/create")
-    public Response<Boolean> createPerson(@RequestBody  Person person) {
-        int id = 0;
+    public Response<Boolean> createPerson(@RequestBody PersonCreationRequest request) {
+        Person person = request.getPerson();
+        Users user = request.getUser();
+        Address address = request.getAddress();
 
         Response<Boolean> res = personService.createPerson(person);
+        Response response = new Response();
 
         if (res.getStatus().equals("success")) {
             Response<Integer> idResponse = personService.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
-            id = idResponse.getData();
+             if (idResponse.getStatus().equals("success")) {
+                 user.setId(idResponse.getData());
+                 address.setId(idResponse.getData());
+                 BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
+                 user.setPassword(passd.encode(user.getPassword()));
+
+                 if (addressService.createAddress(address).equals("success") && userService.createUser(user).equals("success")) {
+                   return   res;
+                 }else{
+                     response.setStatus("error");
+                     response.setTitle("Creation Failed");
+                     response.setMessage("Creation failed could not create user or address");
+                     response.setData(0);
+                     return  response;
+                 }
+             }else{
+                 response.setStatus("error");
+                 response.setTitle("Creation Failed");
+                 response.setMessage("Creation failed could not find id");
+                 response.setData(0);
+                 return  response;
+             }
         } else {
             Response<Integer> errorResponse = new Response<>();
-            errorResponse.setStatus("error");
-            errorResponse.setTitle("Creation Failed");
-            errorResponse.setMessage("Could not get ID because creation failed");
-            errorResponse.setData(0);
+            response.setStatus("error");
+            response.setTitle("Creation Failed");
+            response.setMessage("Creation failed");
+            response.setData(0);
+            return  response;
         }
 
-        return res;
-
     }
+
     @GetMapping("/test-open")
     public String testOpenEndpoint() {
         return "This is open to everyone!";
