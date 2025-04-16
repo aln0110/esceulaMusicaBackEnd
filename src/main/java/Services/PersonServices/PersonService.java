@@ -2,6 +2,8 @@ package Services.PersonServices;
 
 import Data.Person.PersonData;
 import Model.Person.Person;
+import Model.Person.User.Users;
+import Model.Person.Address;
 import Model.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,12 @@ public class PersonService {
 
     @Autowired
     private PersonData personData;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
 
     public Response<Boolean> createPerson(Person person) {
 
@@ -138,6 +146,53 @@ public class PersonService {
             response.setMessage("Error retrieving person: " + e.getMessage());
             response.setData(0);
         }
+        return response;
+    }
+
+   
+    public Response<Boolean> createPerson(Person person, Users user, Address address) {
+        Response<Boolean> response = new Response<>();
+
+
+        boolean personCreated = personData.addPerson(person);
+        if (!personCreated) {
+            response.setStatus("error");
+            response.setTitle("Person Creation Failed");
+            response.setMessage("Failed to create person");
+            response.setData(false);
+            return response;
+        }
+
+      
+        int personId = personData.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
+        if (personId <= 0) {
+            response.setStatus("error");
+            response.setTitle("Person ID Retrieval Failed");
+            response.setMessage("Failed to retrieve person ID");
+            response.setData(false);
+            return response;
+        }
+
+      
+        user.setIdPerson(personId);
+        address.setIdPerson(personId);
+
+     
+        boolean userCreated = userService.createUser(user).getStatus().equals("success");
+        boolean addressCreated = addressService.createAddress(address).getStatus().equals("success");
+
+        if (userCreated && addressCreated) {
+            response.setStatus("success");
+            response.setTitle("Creation Successful");
+            response.setMessage("Person, User, and Address created successfully");
+            response.setData(true);
+        } else {
+            response.setStatus("error");
+            response.setTitle("Creation Failed");
+            response.setMessage("Failed to create user or address");
+            response.setData(false);
+        }
+
         return response;
     }
 
