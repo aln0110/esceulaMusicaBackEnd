@@ -14,7 +14,7 @@ public class AddressData {
     private JdbcTemplate jdbcTemplate;
 
     public boolean addAddress(Address address) {
-        String sql = "INSERT INTO tbAddress (id_persona, province, canton, district, full_address, status) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO person.tbAddress (id_persona, province, canton, district, full_address, status) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             jdbcTemplate.update(sql, address.getIdPerson(), address.getProvince(), address.getCanton(), address.getDistrict(), address.getFullAddress(), address.isStatus());
             return true;
@@ -25,7 +25,7 @@ public class AddressData {
     }
 
     public boolean updateAddress(Address address) {
-        String sql = "UPDATE tbAddress SET id_persona = ?, province = ?, canton = ?, district = ?, full_address = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE person.tbAddress SET id_persona = ?, province = ?, canton = ?, district = ?, full_address = ?, status = ? WHERE id = ?";
         try {
             jdbcTemplate.update(sql, address.getIdPerson(), address.getProvince(), address.getCanton(), address.getDistrict(), address.getFullAddress(), address.isStatus(), address.getId());
             return true;
@@ -36,7 +36,7 @@ public class AddressData {
     }
 
     public boolean logicalDeleteAddress(int id) {
-        String sql = "UPDATE tbAddress SET status = false WHERE id = ?";
+        String sql = "UPDATE person.tbAddress SET status = false WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -47,7 +47,7 @@ public class AddressData {
     }
 
     public boolean deleteAddress(int id) {
-        String sql = "DELETE FROM tbAddress WHERE id = ?";
+        String sql = "DELETE FROM person.tbAddress WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -58,7 +58,7 @@ public class AddressData {
     }
 
     public Address getAddressById(int id) {
-        String sql = "SELECT * FROM tbAddress WHERE id = ?";
+        String sql = "SELECT * FROM person.tbAddress WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
                 Address address = new Address();
@@ -78,7 +78,7 @@ public class AddressData {
     }
 
     public List<Address> getAllAddresses() {
-        String sql = "SELECT * FROM tbAddress";
+        String sql = "SELECT * FROM person.tbAddress";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Address address = new Address();

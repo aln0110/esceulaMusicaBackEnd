@@ -17,7 +17,7 @@ public class UsersData {
     private JdbcTemplate jdbcTemplate;
 
     public boolean addUser(Users user){
-        String sql = "INSERT INTO tbUser (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO person.tbUser (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         System.out.println("Holaaaaaaaaa?");
         try {
             System.out.println("Trying to add user...");
@@ -32,7 +32,7 @@ public class UsersData {
     }
 
     public boolean updateUser(Users user) {
-        String sql = "UPDATE tbUser SET id_persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE person.tbUser SET id_persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
         try {
             jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.getCreatedAt(), user.getLastLogin(), user.isStatus(), user.getId());
             return true;
@@ -43,7 +43,7 @@ public class UsersData {
     }
 
     public boolean logicalDeleteUser(int id) {
-        String sql = "UPDATE tbUser SET status = false WHERE id = ?";
+        String sql = "UPDATE person.tbUser SET status = false WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -55,7 +55,7 @@ public class UsersData {
 
 
     public boolean deleteUser(int id) {
-        String sql = "DELETE FROM tbUserWHERE id = ?";
+        String sql = "DELETE FROM person.tbUserWHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -67,7 +67,7 @@ public class UsersData {
 
 
     public Users getUserById(int id) {
-        String sql = "SELECT * FROM tbUser WHERE id = ?";
+        String sql = "SELECT * FROM person.tbUser WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
                 Users user = new Users();
@@ -91,7 +91,7 @@ public class UsersData {
         }
     }
     public Users getUserByEmail(String email) {
-        String sql = "SELECT * FROM tbUser WHERE email = ?";
+        String sql = "SELECT * FROM person.tbUser WHERE email = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
                 Users user = new Users();
@@ -116,7 +116,7 @@ public class UsersData {
     }
 
     public List<Users> getAllUsers() {
-        String sql = "SELECT * FROM tbUser";
+        String sql = "SELECT * FROM person.tbUser";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Users user = new Users();
@@ -141,7 +141,7 @@ public class UsersData {
     }
 
     public Users login(String email, String password) {
-        String sql = "SELECT * FROM tbUser WHERE email = ?";
+        String sql = "SELECT * FROM person.tbUser WHERE email = ?";
         try {
             Users user = jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
                 Users u = new Users();

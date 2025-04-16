@@ -13,7 +13,7 @@ public class PersonData {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     public boolean addPerson(Person person) {
-        String sql = "INSERT INTO tbPerson (name, lastname, type_idcard, idcard, birth_date, nationality, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO person.tbPerson (name, lastname, type_idcard, idcard, birth_date, nationality, gender, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try {
 
             jdbcTemplate.update(sql, person.getName(), person.getLastname(), person.getTypeIdCard(), person.getIdCard(), Date.valueOf(person.getBirthDate().toLocalDate()), person.getNationality(), person.getGender(), person.isStatus());
@@ -25,7 +25,7 @@ public class PersonData {
     }
 
     public boolean updatePerson(Person person) {
-        String sql = "UPDATE tbPerson SET name = ?, lastname = ?, type_idcard = ?, idcard = ?, birth_date = ?, nationality = ?, gender = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE person.tbPerson SET name = ?, lastname = ?, type_idcard = ?, idcard = ?, birth_date = ?, nationality = ?, gender = ?, status = ? WHERE id = ?";
         try {
             jdbcTemplate.update(sql, person.getName(), person.getLastname(), person.getTypeIdCard(), person.getIdCard(), Date.valueOf(person.getBirthDate().toLocalDate()), person.getNationality(), person.getGender(), person.isStatus(), person.getId());
             return true;
@@ -36,7 +36,7 @@ public class PersonData {
     }
 
     public boolean logicalDeletePerson(int id) {
-        String sql = "UPDATE tbPerson SET status = false WHERE id = ?";
+        String sql = "UPDATE person.tbPerson SET status = false WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -47,7 +47,7 @@ public class PersonData {
     }
 
     public boolean deletePerson(int id) {
-        String sql = "DELETE FROM tbPerson WHERE id = ?";
+        String sql = "DELETE FROM person.tbPerson WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
@@ -58,7 +58,7 @@ public class PersonData {
     }
 
     public Person getPersonById(int id) {
-        String sql = "SELECT * FROM tbPerson WHERE id = ?";
+        String sql = "SELECT * FROM person.tbPerson WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
                 Person person = new Person();
@@ -79,7 +79,7 @@ public class PersonData {
         }
     }
     public int getIdPersonByIdCard(String idCard, String idCardType) {
-        String sql = "SELECT id FROM tbPerson WHERE idcard = ? AND type_idcard = ?";
+        String sql = "SELECT id FROM person.tbPerson WHERE idcard = ? AND type_idcard = ?";
           int id = 0;
         try {
             id = jdbcTemplate.queryForObject(sql, new Object[]{idCard, idCardType}, Integer.class);
@@ -93,7 +93,7 @@ public class PersonData {
     }
 
     public List<Person> getAllPersons() {
-        String sql = "SELECT * FROM tbPerson";
+        String sql = "SELECT * FROM person.tbPerson";
         try {
             return jdbcTemplate.query(sql, (rs, rowNum) -> {
                 Person person = new Person();
