@@ -7,10 +7,11 @@ IF NOT EXISTS (
 BEGIN
     CREATE DATABASE argyranthemum;
 END;
+GO
 
 -- Switch to the new database
 USE argyranthemum;
-
+GO
 -- Create schema for grouping related tables
 IF NOT EXISTS (
     SELECT * FROM sys.schemas WHERE name = 'person'
@@ -64,7 +65,7 @@ CREATE TABLE person.tbAddress (
         FOREIGN KEY (id_persona) REFERENCES person.tbPerson(id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
-
+GO
 -- Trigger for cascading status update
 CREATE TRIGGER trg_UpdateRelatedStatus
 ON person.tbPerson
