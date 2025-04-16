@@ -5,63 +5,54 @@ import Model.Person.Person;
 import Model.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 @Service
 public class PersonService {
 
     @Autowired
     private PersonData personData;
 
-    public Response createPerson(Person person) {
+    public Response<Boolean> createPerson(Person person) {
 
-        //System.out.println("Hola desde persona Service Creating person: " + person);
         boolean success = personData.addPerson(person);
-        Response response = new Response();
+        Response<Boolean> response = new Response<>();
         if (success) {
             response.setStatus("success");
             response.setTitle("Person Created");
             response.setMessage("Person created successfully");
-            response.setData(person);
 
         } else {
             response.setStatus("error");
             response.setTitle("Person Creation Failed");
             response.setMessage("Failed to create person");
-            response.setData(null);
+
         }
 
         return  response;
     }
-    public Response updatePerson(Person person) {
+    public Response<Boolean> updatePerson(Person person) {
         boolean success = personData.updatePerson(person);
-        Response response = new Response();
+        Response<Boolean> response = new Response<>();
         if (success) {
             response.setStatus("success");
             response.setTitle("Person Updated");
             response.setMessage("Person updated successfully");
-            response.setData(person);
         } else {
             response.setStatus("error");
             response.setTitle("Person Update Failed");
             response.setMessage("Failed to update person");
-            response.setData(null);
         }
         return  response;
     }
-    public Response deletePerson(int id) {
+    public Response<Boolean> deletePerson(int id) {
         boolean success = personData.deletePerson(id);
-        Response response = new Response();
-        if (success) {
-            response.setStatus("success");
-            response.setTitle("Person Deleted");
-            response.setMessage("Person deleted successfully");
-            response.setData(null);
-        } else {
-            response.setStatus("error");
-            response.setTitle("Person Deletion Failed");
-            response.setMessage("Failed to delete person");
-            response.setData(null);
-        }
-        return  response;
+        Response<Boolean> response = new Response<>();
+        response.setStatus(success ? "success" : "error");
+        response.setTitle(success ? "Person Deleted" : "Person Deletion Failed");
+        response.setMessage(success ? "Person deleted successfully" : "Failed to delete person");
+        response.setData(success);
+        return response;
     }
     public Response<Person> getPersonById(int id) {
         Response<Person> response = new Response<>();
@@ -80,26 +71,40 @@ public class PersonService {
         return  response;
     }
 
-    
-
-
-
-
-    public Response logicalDeletePerson(int id) {
-        boolean success = personData.logicalDeletePerson(id);
-        Response response = new Response();
-        if (success) {
-            response.setStatus("success");
-            response.setTitle("Person Deleted");
-            response.setMessage("Person logically deleted successfully");
-            response.setData(null);
-        } else {
+    public Response<List<Person>> getAllPersons() {
+        Response<List<Person>> response = new Response<>();
+        try {
+            List<Person> persons = personData.getAllPersons();
+            if (persons != null && !persons.isEmpty()) {
+                response.setStatus("success");
+                response.setTitle("Persons Retrieved");
+                response.setMessage("All persons retrieved successfully");
+                response.setData(persons);
+            } else {
+                response.setStatus("error");
+                response.setTitle("No Persons Found");
+                response.setMessage("No persons found in the database");
+                response.setData(null);
+            }
+        } catch (Exception e) {
             response.setStatus("error");
-            response.setTitle("Person Deletion Failed");
-            response.setMessage("Failed to logically delete person");
+            response.setTitle("Database Error");
+            response.setMessage("Error retrieving persons: " + e.getMessage());
             response.setData(null);
         }
-        return  response;
+        return response;
+    }
+
+
+
+    public Response<Boolean> logicalDeletePerson(int id) {
+        boolean success = personData.logicalDeletePerson(id);
+        Response<Boolean> response = new Response<>();
+        response.setStatus(success ? "success" : "error");
+        response.setTitle(success ? "Person Deleted" : "Person Deletion Failed");
+        response.setMessage(success ? "Person logically deleted successfully" : "Failed to logically delete person");
+        response.setData(success);
+        return response;
     }
 
 
@@ -127,7 +132,6 @@ public class PersonService {
         }
         return response;
     }
-
 
 
 

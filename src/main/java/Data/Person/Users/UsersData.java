@@ -18,9 +18,9 @@ public class UsersData {
 
     public boolean addUser(Users user){
         String sql = "INSERT INTO person.tbUser (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        System.out.println("Holaaaaaaaaa?");
+
         try {
-            System.out.println("Trying to add user...");
+   
             jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.isStatus());
             return  true;
         } catch (Exception e) {
