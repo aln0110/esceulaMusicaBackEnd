@@ -1,8 +1,8 @@
 package Controller.Persona;
 
-import Data.Person.PersonCreationRequest;
 import Model.Person.Address;
 import Model.Person.Person;
+import Model.Person.PersonCreationRequest;
 import Model.Person.User.Users;
 import Model.Response.Response;
 import Services.CustomOAuth2UserService;
@@ -41,15 +41,12 @@ public class PersonContoller {
 
         if (res.getStatus().equals("success")) {
 
-
             Response<Integer> idResponse = personService.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
              if (idResponse.getStatus().equals("success")) {
                  user.setIdPerson(idResponse.getData());
                  address.setIdPerson(idResponse.getData());
                  BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
                  user.setPassword(passd.encode(user.getPassword()));
-
-
                      if (addressService.createAddress(address).getStatus().equals("success") && userServiceS.createUser(user).getStatus().equals("success") ) {
                        return   res;
 

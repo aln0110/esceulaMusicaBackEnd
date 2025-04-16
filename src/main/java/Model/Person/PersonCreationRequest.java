@@ -1,7 +1,5 @@
-package Data.Person;
+package Model.Person;
 
-import Model.Person.Address;
-import Model.Person.Person;
 import Model.Person.User.Users;
 import lombok.Data;
 
