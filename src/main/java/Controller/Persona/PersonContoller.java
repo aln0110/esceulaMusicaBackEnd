@@ -48,9 +48,11 @@ public class PersonContoller {
                  address.setIdPerson(idResponse.getData());
                  BCryptPasswordEncoder passd = new BCryptPasswordEncoder();
                  user.setPassword(passd.encode(user.getPassword()));
-            
+
+
                      if (addressService.createAddress(address).getStatus().equals("success") && userServiceS.createUser(user).getStatus().equals("success") ) {
                        return   res;
+
                      }else{
                          response.setStatus("error");
                          response.setTitle("Creation Failed");
