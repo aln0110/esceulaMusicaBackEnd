@@ -16,9 +16,9 @@ public class UsersDetailsDAO {
             SELECT u.id AS user_id, u.user_name, u.email, u.rol_user, u.provider, u.avatar_url,
                    p.id AS person_id, p.name, p.lastname, p.nationality, p.gender,
                    a.province, a.canton, a.district, a.full_address
-            FROM tbUser u
-            JOIN tbPerson p ON u.id_persona = p.id
-            LEFT JOIN tbAddress a ON p.id = a.id_persona AND a.status = true
+            FROM [argyranthemum].[person].[tbUser] u
+            JOIN [argyranthemum].[person].[tbPerson] p ON u.id_persona = p.id
+            LEFT JOIN [argyranthemum].[person].[tbAddress] a ON p.id = a.id_persona AND a.status = true
             WHERE u.id = ?
         """;
 

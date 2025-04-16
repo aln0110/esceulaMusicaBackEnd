@@ -17,7 +17,7 @@ public class UsersData {
     private JdbcTemplate jdbcTemplate;
 
     public boolean addUser(Users user){
-        String sql = "INSERT INTO person.tbUser (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO [argyranthemum].[person].[tbUser] (id_persona, rol_user, user_name, email, password, provider, oauth_id, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
    
@@ -32,7 +32,7 @@ public class UsersData {
     }
 
     public boolean updateUser(Users user) {
-        String sql = "UPDATE person.tbUser SET id_persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
+        String sql = "UPDATE [argyranthemum].[person].[tbUser] SET id_persona = ?, rol_user = ?, user_name = ?, email = ?, password = ?, provider = ?, oauth_id = ?, avatar_url = ?, created_at = ?, last_login = ?, status = ? WHERE id = ?";
         try {
             jdbcTemplate.update(sql, user.getIdPerson(), user.getUserRol(), user.getUserName(), user.getEmail(), user.getPassword(), user.getProvider(), user.getOAuthId(), user.getAvatarUrl(), user.getCreatedAt(), user.getLastLogin(), user.isStatus(), user.getId());
             return true;
@@ -43,7 +43,7 @@ public class UsersData {
     }
 
     public boolean logicalDeleteUser(int id) {
-        String sql = "UPDATE person.tbUser SET status = false WHERE id = ?";
+        String sql = "UPDATE [argyranthemum].[person].[tbUser] SET status = false WHERE id = ?";
         try {
             jdbcTemplate.update(sql, id);
             return true;
