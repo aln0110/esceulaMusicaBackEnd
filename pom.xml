@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version> <!-- Updated to Java 21 for Azure compatibility -->
+		<java.version>17</java.version> <!-- Downgraded to Java 17 for compatibility -->
 	</properties>
 	<dependencies>
 		<dependency>
