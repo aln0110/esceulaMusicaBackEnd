@@ -3,6 +3,7 @@ package Controller.Persona;
 import Model.Person.Address;
 import Model.Person.Person;
 import Model.Person.PersonCreationRequest;
+import Model.Person.User.UserDetails;
 import Model.Person.User.Users;
 import Model.Response.Response;
 import Services.CustomOAuth2UserService;
@@ -54,10 +55,16 @@ public class PersonContoller {
     public Response<List<Person>> getAllPerson() {
         return personService.getAllPersons();
     }
+
+    @GetMapping("/getDAO")
+    public Response<UserDetails> getPersonDetails(@RequestParam int id) {
+        return personService.getUserDetailsById(id);
+    }
     
     @GetMapping("/test-open")
     public String testOpenEndpoint() {
         return "This is open to everyone!";
     }
+
 
 }

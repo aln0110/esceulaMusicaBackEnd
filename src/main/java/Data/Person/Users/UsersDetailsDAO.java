@@ -18,7 +18,7 @@ public class UsersDetailsDAO {
                    a.province, a.canton, a.district, a.full_address
             FROM [argyranthemum].[person].[tbUser] u
             JOIN [argyranthemum].[person].[tbPerson] p ON u.id_persona = p.id
-            LEFT JOIN [argyranthemum].[person].[tbAddress] a ON p.id = a.id_persona AND a.status = true
+            LEFT JOIN [argyranthemum].[person].[tbAddress] a ON p.id = a.id_persona AND a.status = 1
             WHERE u.id = ?
         """;
 

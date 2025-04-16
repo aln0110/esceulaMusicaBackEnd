@@ -1,14 +1,17 @@
 package Services.PersonServices;
 
 import Data.Person.PersonData;
+import Data.Person.Users.UsersDetailsDAO;
 import Model.Person.Person;
 import Model.Person.User.Users;
 import Model.Person.Address;
+import Model.Person.User.UserDetails;
 import Model.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class PersonService {
 
@@ -20,6 +23,9 @@ public class PersonService {
 
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private UsersDetailsDAO daos;
 
     public Response<Boolean> createPerson(Person person) {
 
@@ -37,8 +43,9 @@ public class PersonService {
 
         }
 
-        return  response;
+        return response;
     }
+
     public Response<Boolean> updatePerson(Person person) {
         boolean success = personData.updatePerson(person);
         Response<Boolean> response = new Response<>();
@@ -51,8 +58,9 @@ public class PersonService {
             response.setTitle("Person Update Failed");
             response.setMessage("Failed to update person");
         }
-        return  response;
+        return response;
     }
+
     public Response<Boolean> deletePerson(int id) {
         boolean success = personData.deletePerson(id);
         Response<Boolean> response = new Response<>();
@@ -70,6 +78,7 @@ public class PersonService {
         response.setData(success);
         return response;
     }
+
     public Response<Person> getPersonById(int id) {
         Response<Person> response = new Response<>();
         Person person = personData.getPersonById(id);
@@ -84,7 +93,7 @@ public class PersonService {
             response.setMessage("No person found with given ID");
             response.setData(null);
         }
-        return  response;
+        return response;
     }
 
     public Response<List<Person>> getAllPersons() {
@@ -111,8 +120,6 @@ public class PersonService {
         return response;
     }
 
-
-
     public Response<Boolean> logicalDeletePerson(int id) {
         boolean success = personData.logicalDeletePerson(id);
         Response<Boolean> response = new Response<>();
@@ -123,8 +130,7 @@ public class PersonService {
         return response;
     }
 
-
-    public  Response<Integer> getIdPersonByIdCard(String idCard, String idCardType) {
+    public Response<Integer> getIdPersonByIdCard(String idCard, String idCardType) {
         Response<Integer> response = new Response<>();
 
         try {
@@ -149,10 +155,8 @@ public class PersonService {
         return response;
     }
 
-   
     public Response<Boolean> createPerson(Person person, Users user, Address address) {
         Response<Boolean> response = new Response<>();
-
 
         boolean personCreated = personData.addPerson(person);
         if (!personCreated) {
@@ -163,7 +167,6 @@ public class PersonService {
             return response;
         }
 
-      
         int personId = personData.getIdPersonByIdCard(person.getIdCard(), person.getTypeIdCard());
         if (personId <= 0) {
             response.setStatus("error");
@@ -173,11 +176,9 @@ public class PersonService {
             return response;
         }
 
-      
         user.setIdPerson(personId);
         address.setIdPerson(personId);
 
-     
         boolean userCreated = userService.createUser(user).getStatus().equals("success");
         boolean addressCreated = addressService.createAddress(address).getStatus().equals("success");
 
@@ -196,6 +197,21 @@ public class PersonService {
         return response;
     }
 
-
+    public Response<UserDetails> getUserDetailsById(int userId) {
+        Response<UserDetails> response = new Response<>();
+        UserDetails userDetails = daos.getUserDetailsById(userId);
+        if (userDetails != null) {
+            response.setStatus("success");
+            response.setTitle("User Details Found");
+            response.setMessage("User details retrieved successfully");
+            response.setData(userDetails);
+        } else {
+            response.setStatus("error");
+            response.setTitle("User Details Not Found");
+            response.setMessage("No user details found with given ID");
+            response.setData(null);
+        }
+        return response;
+    }
 
 }
