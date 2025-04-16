@@ -48,9 +48,17 @@ public class PersonService {
     public Response<Boolean> deletePerson(int id) {
         boolean success = personData.deletePerson(id);
         Response<Boolean> response = new Response<>();
-        response.setStatus(success ? "success" : "error");
-        response.setTitle(success ? "Person Deleted" : "Person Deletion Failed");
-        response.setMessage(success ? "Person deleted successfully" : "Failed to delete person");
+
+        if (success) {
+            response.setStatus("success");
+            response.setTitle("Person Deleted");
+            response.setMessage("Person deleted successfully");
+        } else {
+            response.setStatus("error");
+            response.setTitle("Person Deletion Failed");
+            response.setMessage("Failed to delete person");
+        }
+
         response.setData(success);
         return response;
     }
