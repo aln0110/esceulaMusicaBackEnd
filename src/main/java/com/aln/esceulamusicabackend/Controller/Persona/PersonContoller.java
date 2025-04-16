@@ -3,20 +3,18 @@ package com.aln.esceulamusicabackend.Controller.Persona;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.validation.annotation.Validated;
+
 import org.springframework.web.bind.annotation.*;
 
-import com.aln.esceulamusicabackend.Model.Person.Address;
+
 import com.aln.esceulamusicabackend.Model.Person.Person;
 import com.aln.esceulamusicabackend.Model.Person.PersonCreationRequest;
 import com.aln.esceulamusicabackend.Model.Person.User.UserDetails;
-import com.aln.esceulamusicabackend.Model.Person.User.Users;
+
 import com.aln.esceulamusicabackend.Model.Response.Response;
-import com.aln.esceulamusicabackend.Services.CustomOAuth2UserService;
-import com.aln.esceulamusicabackend.Services.PersonServices.AddressService;
+
 import com.aln.esceulamusicabackend.Services.PersonServices.PersonService;
-import com.aln.esceulamusicabackend.Services.PersonServices.UserService;
+
 
 
 
