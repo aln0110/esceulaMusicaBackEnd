@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - Alstroemeria
+name: Build and deploy JAR app to Azure Web App - alstroemeria
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
 
@@ -34,7 +34,7 @@ jobs:
           path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -42,7 +42,7 @@ jobs:
     permissions:
       id-token: write #This is required for requesting the JWT
       contents: read #This is required for actions/checkout
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -52,15 +52,15 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_19F15D92507049079FF63C3C6736A5A9 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_7B623E0D2EF04F63921A94F5BA65FD16 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_D0D8D087E0AB4066A14B791FDC56D62C }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_B6F1FAE98D224A568FEA0A21644A707C }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4EE1106BE7DC459CA8CDAF016E101DF5 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F35989061E740769511146AB76F60FD }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'Alstroemeria'
+          app-name: 'alstroemeria'
           slot-name: 'Production'
           package: '*.jar'
           
