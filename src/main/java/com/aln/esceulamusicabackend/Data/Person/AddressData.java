@@ -1,9 +1,9 @@
-package Data.Person;
-import Model.Person.Address;
-
+package com.aln.esceulamusicabackend.Data.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.aln.esceulamusicabackend.Model.Person.Address;
 
 import java.util.List;
 

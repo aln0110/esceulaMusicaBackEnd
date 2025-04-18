@@ -1,9 +1,10 @@
-package Data.Person.Users;
+package com.aln.esceulamusicabackend.Data.Person.Users;
 
-import  Model.Person.User.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.aln.esceulamusicabackend.Model.Person.User.UserDetails;
 
 @Repository
 public class UsersDetailsDAO {

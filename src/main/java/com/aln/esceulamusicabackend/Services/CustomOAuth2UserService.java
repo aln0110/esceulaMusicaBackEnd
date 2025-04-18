@@ -1,11 +1,13 @@
-package Services;
-import Model.Person.User.Users;
-import Data.Person.Users.UsersData;
+package com.aln.esceulamusicabackend.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.stereotype.Service;
+
+import com.aln.esceulamusicabackend.Data.Person.Users.UsersData;
+import com.aln.esceulamusicabackend.Model.Person.User.Users;
+
 import java.sql.Timestamp;
 import java.util.Map;
 

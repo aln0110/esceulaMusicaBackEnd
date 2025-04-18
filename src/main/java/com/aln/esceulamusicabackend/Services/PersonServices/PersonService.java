@@ -1,14 +1,15 @@
-package Services.PersonServices;
+package com.aln.esceulamusicabackend.Services.PersonServices;
 
-import Data.Person.PersonData;
-import Data.Person.Users.UsersDetailsDAO;
-import Model.Person.Person;
-import Model.Person.User.Users;
-import Model.Person.Address;
-import Model.Person.User.UserDetails;
-import Model.Response.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.aln.esceulamusicabackend.Data.Person.PersonData;
+import com.aln.esceulamusicabackend.Data.Person.Users.UsersDetailsDAO;
+import com.aln.esceulamusicabackend.Model.Person.Address;
+import com.aln.esceulamusicabackend.Model.Person.Person;
+import com.aln.esceulamusicabackend.Model.Person.User.UserDetails;
+import com.aln.esceulamusicabackend.Model.Person.User.Users;
+import com.aln.esceulamusicabackend.Model.Response.Response;
 
 import java.util.List;
 

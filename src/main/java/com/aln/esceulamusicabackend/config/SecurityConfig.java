@@ -1,4 +1,4 @@
-package config;
+package com.aln.esceulamusicabackend.config;
 
 
 
@@ -9,16 +9,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().permitAll()
-                )
-                .headers(headers -> headers.disable()); // Disable security headers
+            .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
+            .authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll() // Allow all requests
+            );
         return http.build();
     }
 }

@@ -1,15 +1,14 @@
-package Data.Person.Users;
+package com.aln.esceulamusicabackend.Data.Person.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.aln.esceulamusicabackend.Model.Person.User.Users;
+
 //import java.util.ArrayList;
 import java.util.List;
-
-//import Data.DataBase;
-import Model.Person.User.Users;
 
 @Repository
 public class UsersData {

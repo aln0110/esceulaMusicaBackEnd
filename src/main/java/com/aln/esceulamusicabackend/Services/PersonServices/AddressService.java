@@ -1,9 +1,10 @@
-package Services.PersonServices;
-import Data.Person.AddressData;
-import Model.Person.Address;
-import Model.Response.Response;
+package com.aln.esceulamusicabackend.Services.PersonServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.aln.esceulamusicabackend.Data.Person.AddressData;
+import com.aln.esceulamusicabackend.Model.Person.Address;
+import com.aln.esceulamusicabackend.Model.Response.Response;
 
 import java.util.List;
 
