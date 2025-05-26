@@ -2,12 +2,10 @@ package com.aln.esceulamusicabackend.Data.Person.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.aln.esceulamusicabackend.Model.Person.User.Users;
 
-//import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -139,33 +137,32 @@ public class UsersData {
         }
     }
 
-    public Users login(String email, String password) {
-        String sql = "SELECT * FROM person.tbUser WHERE email = ?";
+    public Users login(String email) {
+        String sql = "SELECT * FROM [argyranthemum].[person].[tbUser] WHERE email = ?";
         try {
-            Users user = jdbcTemplate.queryForObject(sql, new Object[]{email}, (rs, rowNum) -> {
-                Users u = new Users();
-                u.setPassword(rs.getString("password"));
-                u.setId(rs.getInt("id"));
-                u.setIdPerson(rs.getInt("id_persona"));
-                u.setUserRol(rs.getString("rol_user"));
-                u.setUserName(rs.getString("user_name"));
-                u.setEmail(rs.getString("email"));
-                u.setProvider(rs.getString("provider"));
-                u.setOAuthId(rs.getString("oauth_id"));
-                u.setAvatarUrl(rs.getString("avatar_url"));
-                u.setCreatedAt(rs.getTimestamp("created_at"));
-                u.setLastLogin(rs.getTimestamp("last_login"));
-                u.setStatus(rs.getBoolean("status"));
-                return u;
+            return jdbcTemplate.query(sql, ps -> ps.setString(1, email), rs -> {
+                if (rs.next()) {
+                    Users user = new Users();
+                    user.setId(rs.getInt("id"));
+                    user.setIdPerson(rs.getInt("id_persona"));
+                    user.setUserRol(rs.getString("rol_user"));
+                    user.setUserName(rs.getString("user_name"));
+                    user.setEmail(rs.getString("email"));
+                    user.setPassword(rs.getString("password"));
+                    user.setProvider(rs.getString("provider"));
+                    user.setOAuthId(rs.getString("oauth_id"));
+                    user.setAvatarUrl(rs.getString("avatar_url"));
+                    user.setCreatedAt(rs.getTimestamp("created_at"));
+                    user.setLastLogin(rs.getTimestamp("last_login"));
+                    user.setStatus(rs.getBoolean("status"));
+                    return user;
+                }
+                return null;
             });
-
-            if (user != null && new BCryptPasswordEncoder().matches(password, user.getPassword())) {
-                return user;
-            }
         } catch (Exception e) {
             System.out.println("Error logging in: " + e.getMessage());
+            return null;
         }
-        return null; // Invalid credentials
     }
 
 

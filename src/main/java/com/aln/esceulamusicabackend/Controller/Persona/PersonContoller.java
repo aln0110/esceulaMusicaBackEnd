@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import com.aln.esceulamusicabackend.Model.Person.Person;
 import com.aln.esceulamusicabackend.Model.Person.PersonCreationRequest;
 import com.aln.esceulamusicabackend.Model.Person.User.UserDetails;
+import com.aln.esceulamusicabackend.Model.Person.User.Users;
 
 import com.aln.esceulamusicabackend.Model.Response.Response;
 
 import com.aln.esceulamusicabackend.Services.PersonServices.PersonService;
-
+import com.aln.esceulamusicabackend.Services.PersonServices.UserService;
 
 
 
@@ -23,6 +24,9 @@ import com.aln.esceulamusicabackend.Services.PersonServices.PersonService;
 public class PersonContoller {
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(path = "/create")
     public Response<Boolean> createPerson(@RequestBody PersonCreationRequest request) {
@@ -61,6 +65,11 @@ public class PersonContoller {
     @GetMapping("/test-open")
     public String testOpenEndpoint() {
         return "This is open to everyone!";
+    }
+
+    @PostMapping("/login")
+    public Response<Users> login(@RequestBody Users loginRequest) {
+        return userService.login(loginRequest.getEmail(), loginRequest.getPassword());
     }
 
 
