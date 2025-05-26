@@ -1,4 +1,4 @@
-package com.aln.esceulamusicabackend.Services.PersonServices;
+        package com.aln.esceulamusicabackend.Services.PersonServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,6 +89,24 @@ public class UserService {
         response.setTitle(success ? "User Updated" : "User Update Failed");
         response.setMessage(success ? "User updated successfully" : "Failed to update user");
         response.setData(success);
+        return response;
+    }
+
+    public Response<Users> login(String email, String password) {
+        Users user = usersData.getUserByEmail(email);
+        Response<Users> response = new Response<>();
+
+        if (user != null && password.equals(user.getPassword())) { // Compare plain text passwords
+            response.setStatus("success");
+            response.setTitle("Login Successful");
+            response.setMessage("User logged in successfully");
+            response.setData(user);
+        } else {
+            response.setStatus("error");
+            response.setTitle("Login Failed");
+            response.setMessage("Invalid email or password");
+        }
+
         return response;
     }
 }
